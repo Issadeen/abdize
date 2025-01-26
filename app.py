@@ -202,12 +202,15 @@ email: example@email.com"""
     logger.error("Failed to process request")
     return jsonify({"status": "error", "message": "Failed to process request"}), 500
 
+@app.route('/')
+def home():
+    return "Truck Maintenance Notification System is running."
+
 # Remove the test_env route
 # @app.route('/test-env', methods=['GET'])
 # def test_env():
 #     twilio_sid = os.getenv('TWILIO_ACCOUNT_SID')
 #     return jsonify({"TWILIO_ACCOUNT_SID": twilio_sid})
-
 # Modify the main block for PythonAnywhere compatibility
 if __name__ == "__main__":
     app.run(debug=False)

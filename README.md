@@ -239,3 +239,34 @@ After making any changes to your application or configuration, always reload the
 
 **Summary:**
 Twilio provides a Request Inspector tool that allows you to view detailed information about webhook requests, which can help identify issues.
+
+
+> **Action:**
+> - If you added new dependencies, ensure they are listed in `requirements.txt`.
+> - To install any new dependencies, run:
+>   ```bash
+>   pip install -r /home/Issaerium/abdize/abdize/requirements.txt
+>   ```
+> - After updating `requirements.txt`, reload your web app.
+
+### 4. **Reload the Web App on PythonAnywhere**
+
+**Summary:**
+After making changes to your application code or configuration files, reload the web app to apply the updates.
+**Steps:**
+
+1. **Navigate to the Web Tab:**
+
+   ![Reload Button](https://i.imgur.com/your-reload-button-image.png) *(Replace with actual image if needed)*
+
+### 5. **Final Verification**
+
+**Summary:**
+Confirm that the application responds correctly to both the root URL and the `/test-env` route (if re-enabled).
+
+
+   - Click the **Reload** button to apply all changes.
+2. **Reload the Application:**
+   - Find your web app in the list.
+   - Log in to [PythonAnywhere](https://www.pythonanywhere.com/).
+   - Click on the **Web** tab in the dashboard.
