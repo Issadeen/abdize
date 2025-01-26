@@ -39,3 +39,12 @@ A WhatsApp-to-Email notification system for truck maintenance requests.
 - SMTP_USERNAME
 - SMTP_PASSWORD
 - FROM_EMAIL
+
+## Testing the Webhook
+1. **Send a Test Message:**
+   - Use WhatsApp to send a maintenance request to your Twilio number.
+2. **Verify Email Receipt:**
+   - Check the designated email to ensure the maintenance request was received and formatted correctly.
+3. **Check Application Logs:**
+   - Navigate to the **Web** tab on PythonAnywhere.
+   - Review the **Error Log** and **Access Log** for any issues.
