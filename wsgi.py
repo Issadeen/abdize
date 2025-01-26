@@ -12,3 +12,5 @@ load_dotenv(os.path.join(path, '.env'))
 
 # Import your Flask app
 from app import app as application
+
+# No changes required if this file is not used by PythonAnywhere.

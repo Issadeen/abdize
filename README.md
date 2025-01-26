@@ -184,3 +184,58 @@ Twilio provides a Request Inspector tool that allows you to view detailed inform
    - Ensure that every possible execution path in the `webhook` function returns a valid HTTP response with the correct status code.
    - Example:
      ```python
+**Steps:**
+**Steps:**
+
+1. **Access Twilio Request Inspector:**
+   - In the [Twilio Console](https://www.twilio.com/console), navigate to **Monitor** > **Logs** > **Request Inspector**.
+
+2. **Locate the Failed Request:**
+   - Find the entry corresponding to the failed message with error code `11200`.
+   - Click on the request to view detailed information.
+
+3. **Review Request Details:**
+   - **Request URL:** Ensure it matches `https://Issaerium.pythonanywhere.com/webhook`.
+   - **HTTP Method:** Should be `POST`.
+   - **Status Code:** Should now be `200`. If not, note the actual status code.
+   - **Error Message:** Review any error messages provided by Twilio.
+
+4. **Analyze the Details:**
+   - Look for issues such as:
+     - **Timeouts:** Ensure your webhook responds promptly.
+     - **SSL Issues:** PythonAnywhere should have valid SSL certificates. Verify no SSL handshake errors.
+     - **Firewall Restrictions:** Ensure your application isn't blocking incoming requests.
+
+---
+
+### 7. **Reload the Web App on PythonAnywhere**
+
+**Summary:**
+After making any changes to your application or configuration, always reload the web app to apply the updates.
+
+
+1. **Log in to PythonAnywhere:**
+   - Navigate to [PythonAnywhere](https://www.pythonanywhere.com/) and sign in.
+
+2. **Navigate to the Web Tab:**
+   - Click on the **Web** tab in the dashboard.
+
+3. **Access Logs:**
+   - **Error Logs:**
+     - Locate the **Error Log** section and review any new error messages or stack traces.
+   - **Access Logs:**
+     - Locate the **Access Log** section to see incoming requests and their statuses.
+
+4. **Analyze the Logs:**
+   - **Error Log:**
+     - Identify any new errors that occurred during the manual testing.
+     - Common issues might include exceptions thrown during request processing.
+   - **Access Log:**
+     - Confirm that the `POST /webhook` requests are receiving `200` status codes after your changes.
+
+---
+
+### 6. **Check Twilio’s Request Inspector**
+
+**Summary:**
+Twilio provides a Request Inspector tool that allows you to view detailed information about webhook requests, which can help identify issues.
