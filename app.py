@@ -111,8 +111,11 @@ Maintenance Information:
 
 Thank you for your attention to this matter."""
 
-@app.route('/webhook', methods=['POST'])
+@app.route('/webhook', methods=['GET', 'POST'])
 def webhook():
+    if request.method == 'GET':
+        return "This endpoint accepts POST requests only.", 200
+
     logger.info("Received a webhook request")
     # Get the incoming message from WhatsApp
     message_body = request.form.get('Body')

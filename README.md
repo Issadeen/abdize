@@ -65,17 +65,17 @@ A WhatsApp-to-Email notification system for truck maintenance requests.
 
 ---
 
-### 5. **Test Your Application**
-   - Ensure that your application is functioning correctly with the updated webhook URL.
+   - Click the **Reload** button to apply all changes.
 
-### 5. **Monitor Logs for Troubleshooting**
+   ![Reload Button](https://i.imgur.com/your-reload-button-image.png) *(Replace with actual image if needed)*
+
 
 If you encounter any further issues, monitor your application logs to identify and resolve them.
 
 Double-check that the Twilio webhook URL is correctly pointing to your live PythonAnywhere endpoint.
-**Steps:**
 
-1. **Double-Check `.env` Content:**
+
+
    - Ensure all required variables (`TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, etc.) are correctly defined without typos.
 
 2. **Confirm Loading in `app.py`:**   - Ensure `load_dotenv()` is called correctly to load the `.env` file.3. **Test Environment Variables:**   - Click on the **Web** tab in the dashboard.2. **Reload the Application:**   - As you've already done, use a test route or print statements to confirm environment variables are being loaded.   ```bash   python -c "from dotenv import load_dotenv; load_dotenv(); import os; print(os.getenv('TWILIO_ACCOUNT_SID'))"   ```   - Ensure the output matches the value in your `.env` file.
@@ -126,10 +126,10 @@ After implementing the above steps, monitor your application to ensure the issue
    Open your terminal and execute the following command:
 
    ```bash
-   curl -X POST https://Issaerium.pythonanywhere.com/webhook \
-   -d "Body=KBZ123A\nJohn Doe\n0722123456\nWorkshop\nemail: example@email.com" \
-   -d "From=whatsapp:+254700000000"
-   ```
+
+1. **Use cURL to Send a Test POST Request:**
+
+   Open your terminal and execute the following command:
 
    **Expected Response:**
    ```json
@@ -262,8 +262,90 @@ After making changes to your application code or configuration files, reload the
 ### 5. **Final Verification**
 
 **Summary:**
-Confirm that the application responds correctly to both the root URL and the `/test-env` route (if re-enabled).
+Ensure that the `/webhook` endpoint correctly handles `POST` requests and responds appropriately. Also, verify that accessing it via a browser yields the expected message if the optional `GET` handler is implemented.
 
+## Final Verification
+1. **Access the Root Route:**
+   - Open `https://issaerium.pythonanywhere.com/` in your browser.
+   - **Expected Response:**
+     ```
+     Truck Maintenance Notification System is running.
+   - Click on the **Web** tab in the dashboard.
+     ```
+
+2. **Test the `/webhook` Route:**
+   - **Using cURL:**
+     ```bash
+     curl -X POST https://Issaerium.pythonanywhere.com/webhook \
+     -d "Body=KBZ123A\nJohn Doe\n0722123456\nWorkshop\nemail: example@email.com" \
+     -d "From=whatsapp:+254700000000"
+     ```
+     **Expected Response:**
+     ```json
+     {
+       "status": "success",
+       "message": "Repair request sent"
+     }
+     ```
+
+   - **Using Postman:**
+     - Open [Postman](https://www.postman.com/) or a similar tool.
+     - Create a new `POST` request to `https://Issaerium.pythonanywhere.com/webhook`.
+     - In the body, select `x-www-form-urlencoded` and add:
+       - `Body`: 
+         ```
+         KBZ123A
+         John Doe
+         0722123456
+         Workshop
+         email: example@email.com
+         ```
+       - `From`: `whatsapp:+254700000000`
+     - Send the request and verify the response.
+
+3. **Access `/webhook` via Browser (Optional):**
+   - Open `https://issaerium.pythonanywhere.com/webhook` in your browser.
+   - **Expected Response (if GET handler is added):**
+     ```
+     This endpoint accepts POST requests only.
+     ```
+   - **If GET handler is not added, you will receive a 405 error**, which is expected behavior.
+
+4. **Monitor Logs:**
+   - **PythonAnywhere:**
+     - Go to the **Web** tab.
+     - Check both **Error Log** and **Access Log** for any new entries or errors.
+   - **Twilio:**
+     - In the [Twilio Console](https://www.twilio.com/console), navigate to **Monitor** > **Logs** > **Request Inspector**.
+     - Verify that webhook requests have a `200` status code and no errors.
+
+# Summary of Actions
+
+1. **Added a GET Handler for `/webhook` (Optional):**
+   - Allows friendly messaging when accessing the endpoint via a browser.
+   
+2. **Confirmed Twilio Webhook Configuration:**
+   - Ensured Twilio is set to send `POST` requests to the correct webhook URL.
+
+3. **Reloaded the Web App on PythonAnywhere:**
+   - Applied all changes to ensure the application runs with the latest configurations.
+
+4. **Performed Final Verification:**
+   - Tested both `GET` and `POST` requests to ensure endpoints behave as expected.
+   - Monitored logs to confirm successful processing of webhook requests.
+
+# Next Steps
+
+- **Monitor Application Logs:**
+  - Continuously check the **Error Log** and **Access Log** on PythonAnywhere to identify and resolve any new issues.
+
+- **Secure Sensitive Routes:**
+  - If you added the `GET` handler for `/webhook`, ensure it does not expose sensitive information.
+
+- **Enhance Application Functionality:**
+  - Depending on your needs, consider adding more routes or features to your Flask application.
+
+Feel free to reach out if you encounter further issues or need additional assistance!
 
    - Click the **Reload** button to apply all changes.
 2. **Reload the Application:**
