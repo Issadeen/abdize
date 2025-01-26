@@ -7,6 +7,11 @@ from email.mime.multipart import MIMEMultipart
 from email_validator import validate_email, EmailNotValidError
 from dotenv import load_dotenv
 from datetime import datetime
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
@@ -108,9 +113,14 @@ Thank you for your attention to this matter."""
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
+    logger.info("Received a webhook request")
     # Get the incoming message from WhatsApp
     message_body = request.form.get('Body')
     from_number = request.form.get('From')
+
+    if not message_body or not from_number:
+        logger.error("Missing 'Body' or 'From' in the request")
+        return jsonify({"status": "error", "message": "Missing 'Body' or 'From'"}), 400
 
     # Send immediate "seen" message
     try:
@@ -119,8 +129,10 @@ def webhook():
             from_=TWILIO_WHATSAPP_NUMBER,
             to=from_number
         )
+        logger.info("Sent 'seen' message successfully")
     except Exception as e:
-        print(f"Error sending seen message: {str(e)}")
+        logger.error(f"Error sending seen message: {str(e)}")
+        return jsonify({"status": "error", "message": "Failed to send seen message"}), 500
 
     # Parse the truck request
     result = parse_truck_request(message_body)
@@ -137,12 +149,17 @@ John Doe  (Driver Name)
 Workshop  (Optional repair location)
 email: example@email.com"""
         
-        client.messages.create(
-            body=help_message,
-            from_=TWILIO_WHATSAPP_NUMBER,
-            to=from_number
-        )
-        return jsonify({"status": "error", "message": "Incomplete information"})
+        try:
+            client.messages.create(
+                body=help_message,
+                from_=TWILIO_WHATSAPP_NUMBER,
+                to=from_number
+            )
+            logger.info("Sent help message for incomplete information")
+        except Exception as e:
+            logger.error(f"Error sending help message: {str(e)}")
+            return jsonify({"status": "error", "message": "Failed to send help message"}), 500
+        return jsonify({"status": "error", "message": "Incomplete information"}), 400
     
     elif result['status'] == 'complete':
         # Original email sending logic here, using result['data'] instead of truck_data
@@ -167,17 +184,23 @@ email: example@email.com"""
                 from_=TWILIO_WHATSAPP_NUMBER,
                 to=from_number
             )
-            return jsonify({"status": "success", "message": "Repair request sent"})
+            logger.info("Sent repair request email successfully")
+            return jsonify({"status": "success", "message": "Repair request sent"}), 200
         except Exception as e:
             error_msg = f"Error processing repair request: {str(e)}"
-            client.messages.create(
-                body=error_msg,
-                from_=TWILIO_WHATSAPP_NUMBER,
-                to=from_number
-            )
-            return jsonify({"status": "error", "message": error_msg})
+            logger.error(error_msg)
+            try:
+                client.messages.create(
+                    body=error_msg,
+                    from_=TWILIO_WHATSAPP_NUMBER,
+                    to=from_number
+                )
+            except Exception as ex:
+                logger.error(f"Error sending error message: {str(ex)}")
+            return jsonify({"status": "error", "message": error_msg}), 500
 
-    return jsonify({"status": "error", "message": "Failed to process request"})
+    logger.error("Failed to process request")
+    return jsonify({"status": "error", "message": "Failed to process request"}), 500
 
 # Remove the test_env route
 # @app.route('/test-env', methods=['GET'])
