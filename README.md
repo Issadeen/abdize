@@ -22,13 +22,19 @@ A WhatsApp-to-Email notification system for truck maintenance requests.
    pip install -r requirements.txt
    ```
 5. Create `.env` file in the project directory
-6. Configure Web app:
-   - Add new web app
-   - Choose manual config (Python 3.9)
-   - Set source code: /home/Issaerium/abdize
+6. **Set Twilio webhook URL in Twilio Console:**
+   - Navigate to your Twilio number settings.
+   - Update the webhook URL to:
+     ```bash
    - Set working directory: /home/Issaerium/abdize
    - Set WSGI file path: /var/www/issaerium_pythonanywhere_com_wsgi.py
 7. Reload the web app
+
+## Environment Variables Required
+   - Set source code: /home/Issaerium/abdize
+   - Set working directory: /home/Issaerium/abdize
+   - Set WSGI file path: /var/www/issaerium_pythonanywhere_com_wsgi.py
+8. Reload the web app
 
 ## Environment Variables Required
 - TWILIO_ACCOUNT_SID
@@ -43,8 +49,25 @@ A WhatsApp-to-Email notification system for truck maintenance requests.
 ## Testing the Webhook
 1. **Send a Test Message:**
    - Use WhatsApp to send a maintenance request to your Twilio number.
+**Steps to Reload:**
 2. **Verify Email Receipt:**
    - Check the designated email to ensure the maintenance request was received and formatted correctly.
 3. **Check Application Logs:**
    - Navigate to the **Web** tab on PythonAnywhere.
    - Review the **Error Log** and **Access Log** for any issues.
+
+
+1. **Navigate to the Web Tab:**
+   - Log in to [PythonAnywhere](https://www.pythonanywhere.com/).
+   - Find your web app in the list.
+   - Click the **Reload** button to apply all changes.
+
+### 4. **Test Your Application**
+
+Ensure that your application is functioning correctly with the updated webhook URL.
+
+
+---
+   - Click on the **Web** tab in the dashboard.
+
+2. **Reload the Application:**
